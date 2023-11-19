@@ -1,7 +1,7 @@
-const sequelize = require('./database/index'); // 正しいパスを指定
-const User = require('./models/user'); // 正しいパスを指定
+const { sequelize, User, ToDoItem, BillingItem, MemoItem, UserDashboardSetting, Widget } = require('./models');
 
-sequelize.sync({ force: true }) // `force: true` は既存のテーブルを削除して再作成します
+// データベースの同期
+sequelize.sync({ force: true }) // `force: true` はテーブルの再作成に注意
   .then(() => {
     console.log('データベースとテーブルが正常に作成されました。');
   })

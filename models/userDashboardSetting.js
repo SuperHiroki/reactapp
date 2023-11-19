@@ -1,9 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../database'); // Sequelizeインスタンスのインポート
 
-const Sequelize = require('sequelize');
-const sequelize = require('../database'); // Sequelizeインスタンスのインポート
-
 const UserDashboardSetting = sequelize.define('userDashboardSetting', {
   userId: {
     type: Sequelize.INTEGER,

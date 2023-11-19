@@ -10,7 +10,8 @@ const User = sequelize.define('user', {
   },
   username: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true // ユニーク制約の追加
   },
   email: {
     type: Sequelize.STRING,

@@ -1,11 +1,11 @@
-//import React from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'; // 'Routes' をインポート
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import HomePage from './HomePage';
-import React, { useState, useEffect } from 'react'; // この行を追加
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  //ログイン時に発火する
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -17,26 +17,30 @@ function App() {
     setCurrentUser(username);
   };
 
+  //サインアップ時に発火する
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    setCurrentUser(null);
+  };
 
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup">Sign Up</Link></li>
-          </ul>
+      <div className="container mx-auto p-4">
+        <nav className="flex justify-center space-x-4 mb-4">
+          <Link to="/" className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Home</Link>
+          {!currentUser && <Link to="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</Link>}
+          {!currentUser && <Link to="/signup" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</Link>}
+          {currentUser && <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</button>}
         </nav>
 
-        {/* ユーザー名を表示 */}
         {currentUser && <p>Welcome, {currentUser}</p>}
 
-        {/* v6の新しいルーティングの方法に合わせて修正 */}
+        {/* ルーティング */}
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginForm onLoginSuccess={handleLoginSuccess} />} /> {/* この行を変更 */}
-          <Route path="/signup" element={<SignUpForm />} />
+          <Route path="/login" element={<LoginForm onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/signup" element={<SignUpForm onSignupSuccess={handleLoginSuccess}  />} />
         </Routes>
       </div>
     </Router>
