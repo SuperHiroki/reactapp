@@ -35,6 +35,7 @@ function App() {
   return (
     <Router>
       <div className="container mx-auto p-4">
+        <h1>Welcome to the ToDo List.</h1>
         <nav className="flex justify-center space-x-4 mb-4">
           <Link to="/" className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Home</Link>
           {!currentUser && <Link to="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</Link>}
