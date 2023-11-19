@@ -1,39 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+//import React from 'react';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'; // 'Routes' をインポート
+import LoginForm from './LoginForm';
+import SignUpForm from './SignUpForm';
+import HomePage from './HomePage';
+import React, { useState, useEffect } from 'react'; // この行を追加
 
 function App() {
-  // 状態を追加して、メッセージを保持します。
-  const [message, setMessage] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // useEffectを使用して、コンポーネントがマウントされた後にAPIリクエストを実行します。
   useEffect(() => {
-    // APIエンドポイント '/api/hello' からデータを取得します。
-    fetch('/api/hello')
-      .then(response => response.json()) // レスポンスをJSONとして解析します。
-      .then(data => setMessage(data.message)) // 状態を更新して、メッセージをセットします。
-      .catch(error => console.error('Error:', error)); // エラーがあればコンソールに表示します。
-  }, []); // 空の依存配列を渡して、コンポーネントのマウント時にのみ実行されるようにします。
+    const username = localStorage.getItem('username');
+    setCurrentUser(username);
+  }, []);
+
+  const handleLoginSuccess = (username) => {
+    setCurrentUser(username);
+  };
+
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {/* サーバーからのメッセージを表示します。 */}
-        <p>{message}</p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/signup">Sign Up</Link></li>
+          </ul>
+        </nav>
+
+        {/* ユーザー名を表示 */}
+        {currentUser && <p>Welcome, {currentUser}</p>}
+
+        {/* v6の新しいルーティングの方法に合わせて修正 */}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginForm onLoginSuccess={handleLoginSuccess} />} /> {/* この行を変更 */}
+          <Route path="/signup" element={<SignUpForm />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
