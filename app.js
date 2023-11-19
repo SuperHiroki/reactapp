@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 5000;
+//const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 80;
 const path = require('path');
 const cors = require('cors');
 app.use(cors());
@@ -16,10 +17,10 @@ app.post('/api/signup', async (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10); // パスワードをハッシュ化
     const newUser = await User.create({ username, email, password: hashedPassword });
-    res.json({ message: 'サインアップ成功！', user: { id: newUser.id, username: newUser.username, email: newUser.email } });
+    res.json({ message: 'サインアップ成功！', user: { userId: newUser.id, username: newUser.username, email: newUser.email } });
   } catch (error) {
     console.error('サインアップ中にエラーが発生しました:', error);
-    res.status(500).json({ message: 'サインアップ中にエラーが発生しました' });
+    res.status(500).json({ message: 'サインアップ中にエラーが発生しました。すでに登録されている名前かもしれません。' });
   }
 });
 

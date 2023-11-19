@@ -20,18 +20,20 @@ function SignUpForm({onSignupSuccess}) {
       console.log('サーバーからのレスポンス:', data);
       localStorage.setItem('token', data.user.token);
       localStorage.setItem('username', data.user.username);
-      localStorage.setItem('userId', data.userId);
+      localStorage.setItem('userId', data.user.userId);
       setMessage('Signup successful');
-      onSignupSuccess(data.user.username, data.userId);
+      onSignupSuccess(data.user.username, data.user.userId);
     } catch (error) {
       console.error('サーバー通信中にエラーが発生しました:', error);
+      setMessage('Error occured. The username may be already used.');
     }
   };
 
   return (
 <div className="max-w-sm mx-auto mt-10">
+<div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
   <h2 className="text-center text-2xl font-bold mb-6">Sign Up</h2>
-  <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <form onSubmit={handleSubmit}>
     <div className="mb-4">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
         Username:
@@ -57,6 +59,7 @@ function SignUpForm({onSignupSuccess}) {
     </div>
   </form>
   {message && <p className="text-center text-red-500 text-xs">{message}</p>}
+</div>
 </div>
   );
 }
