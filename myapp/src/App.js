@@ -5,6 +5,8 @@ import HomePage from './HomePage';
 import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [userId, setUserId] = useState(localStorage.getItem('userId'));
+
   //ログイン時に発火する
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -13,15 +15,21 @@ function App() {
     setCurrentUser(username);
   }, []);
 
-  const handleLoginSuccess = (username) => {
+  const handleLoginSuccess = (username,userId) => {
     setCurrentUser(username);
+    console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFF');
+    console.log(userId);
+    setUserId(userId);
   };
 
-  //サインアップ時に発火する
+  //ログアウト時に発火する
   const handleLogout = () => {
+    console.log('KKKKKKKKKKKKKKKKKKKKKKKK logout')
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('userId');
     setCurrentUser(null);
+    setUserId(null);
   };
 
   return (
@@ -38,7 +46,7 @@ function App() {
 
         {/* ルーティング */}
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage userId={userId} />} />
           <Route path="/login" element={<LoginForm onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/signup" element={<SignUpForm onSignupSuccess={handleLoginSuccess}  />} />
         </Routes>

@@ -7,7 +7,9 @@ app.use(cors());
 app.use(express.json());
 const bcrypt = require('bcrypt');
 const User = require('./models/user'); // Userモデルの正しいパスを指定
+const ToDoItem = require('./models/toDoItem');
 
+///////////////////////////////////////////////////////
 //サインアップ
 app.post('/api/signup', async (req, res) => {
   try {
@@ -30,8 +32,8 @@ app.post('/api/login', async (req, res) => {
   try {
     const user = await User.findOne({ where: { username } });
     if (user && bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign({ username }, secretKey);
-      res.json({ token, username });
+      const token = jwt.sign({ id: user.id, username }, secretKey);
+      res.json({ token, username, userId: user.id });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -40,6 +42,46 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+///////////////////////////////////////////////////////
+// ToDo項目の取得
+app.get('/api/todos', async (req, res) => {
+  try {
+    const userId = req.query.userId; // ユーザーIDをクエリパラメータから取得
+    const items = await ToDoItem.findAll({
+      where: { userId } // ユーザーIDでフィルタリング
+    });
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// ToDo項目の追加
+app.post('/api/todos', async (req, res) => {
+  try {
+    console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+    const { content, userId } = req.body;
+    console.log(userId);
+    const newItem = await ToDoItem.create({ content, userId });
+    res.status(201).json(newItem);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// ToDo項目の削除
+app.delete('/api/todos/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await ToDoItem.destroy({ where: { id } });
+    res.status(200).json({ message: 'ToDo item deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+///////////////////////////////////////////////////////
 
 app.get('/api', (req, res) => {
   res.send('Welcome to the Node.js Server BBBBBBBBBBBBBBBB!');

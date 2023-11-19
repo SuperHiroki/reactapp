@@ -19,8 +19,9 @@ function LoginForm({ onLoginSuccess }) {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
+        localStorage.setItem('userId', data.userId);
         setMessage('Login successful');
-        onLoginSuccess(data.username); // ログイン成功をAppコンポーネントに通知
+        onLoginSuccess(data.username, data.userId); // ログイン成功をAppコンポーネントに通知
       } else {
         setMessage(data.message);
       }

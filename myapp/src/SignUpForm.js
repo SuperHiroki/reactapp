@@ -20,8 +20,9 @@ function SignUpForm({onSignupSuccess}) {
       console.log('サーバーからのレスポンス:', data);
       localStorage.setItem('token', data.user.token);
       localStorage.setItem('username', data.user.username);
+      localStorage.setItem('userId', data.userId);
       setMessage('Signup successful');
-      onSignupSuccess(data.user.username);
+      onSignupSuccess(data.user.username, data.userId);
     } catch (error) {
       console.error('サーバー通信中にエラーが発生しました:', error);
     }
