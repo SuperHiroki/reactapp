@@ -1,3 +1,8 @@
 Server running on port 80
 Executing (default): SELECT `id`, `userId`, `content`, `isCompleted`, `dueDate`, `createdAt`, `updatedAt` FROM `toDoItems` AS `toDoItem` WHERE `toDoItem`.`userId` = '1';
 Executing (default): SELECT `id`, `userId`, `content`, `isCompleted`, `dueDate`, `createdAt`, `updatedAt` FROM `toDoItems` AS `toDoItem` WHERE `toDoItem`.`userId` = '1';
+Server running on port 80
+Executing (default): SELECT `id`, `userId`, `content`, `isCompleted`, `dueDate`, `createdAt`, `updatedAt` FROM `toDoItems` AS `toDoItem` WHERE `toDoItem`.`userId` = '1';
+Executing (default): SELECT `id`, `userId`, `content`, `isCompleted`, `dueDate`, `createdAt`, `updatedAt` FROM `toDoItems` AS `toDoItem` WHERE `toDoItem`.`userId` = '1';
+Executing (default): SELECT `id`, `userId`, `content`, `isCompleted`, `dueDate`, `createdAt`, `updatedAt` FROM `toDoItems` AS `toDoItem` WHERE `toDoItem`.`userId` = '1';
+Executing (default): SELECT `id`, `userId`, `content`, `isCompleted`, `dueDate`, `createdAt`, `updatedAt` FROM `toDoItems` AS `toDoItem` WHERE `toDoItem`.`userId` = '1';
